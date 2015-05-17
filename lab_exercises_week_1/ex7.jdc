@@ -1,0 +1,42 @@
+//7 naive
+
+
+println("Enter the first number: ");
+String str = System.console().readLine();
+int firstNum = Integer.parseInt(str);
+
+println("Enter the second number: ");
+str = System.console().readLine();
+int secondNum = Integer.parseInt(str);
+
+println("Enter the second number: ");
+str = System.console().readLine();
+int thirdNum = Integer.parseInt(str);
+
+int lowNum = 0;
+int midNum = 0;
+int highNum = 0;
+
+//sort first two positions
+if (secondNum <= firstNum){
+	lowNum = secondNum;
+	midNum = firstNum;
+} else {
+	lowNum = firstNum;
+	midNum = secondNum;
+}
+
+if (thirdNum <= lowNum){
+	highNum = midNum;
+	midNum = lowNum;
+	lowNum = thirdNum;
+} else if (thirdNum <= midNum){
+	highNum = midNum;
+	midNum= thirdNum;
+} else {
+	highNum = thirdNum;
+}
+
+println ( String.valueOf(lowNum) + ", " +
+	String.valueOf(midNum) + ", " +
+	String.valueOf(highNum));

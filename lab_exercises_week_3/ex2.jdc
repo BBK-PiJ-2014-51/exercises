@@ -1,0 +1,114 @@
+//ex 1 week 3
+Calculator calculator = new Calculator();	
+String operation = System.console().readLine();
+calculator.parseOperation(operation);
+calculator.calculate();
+println((calculator.hasError()) ? "ERROR! Try again!" : "The answer is: " + String.valueOf(calculator.getAnswer()));
+
+
+class Calculator{
+	public final static int NUMBERS = 2;
+	private double num1 = 0.0;
+	private double num2 = 0.0;
+	private double answer = 0.0;
+	private boolean hasError = false;
+	private char operator = ' ';
+	public void setNum1(double num1){
+		this.num1 = num1;
+	}
+	
+	public void setNum2(double num2){
+		this.num2 = num2;
+	}
+	
+	public double getNum1(){
+		return this.num1;
+	}
+	
+	public double getNum2(){
+		return this.num2;
+	}
+	
+	public void setError(){
+		this.hasError = true;
+	}
+	
+	public double getAnswer(){
+		return answer;
+	}
+	
+	public void multiply(){
+		answer = num1 * num2;
+	}
+	
+	public void divide(){
+		answer = num1 / num2;
+	}
+
+	public void add(){
+		answer = num1 + num2;
+	}
+
+	public void subtract(){
+		answer = num1 - num2;
+	}
+	
+	public void calculate(){
+		switch (this.operator){
+			case '+':
+				this.add();
+				break;
+			case '-':
+				this.subtract();
+				break;
+			case '*':
+				this.multiply();
+				break;
+			case '/':
+				this.divide();
+				break;
+			default:
+				this.setError();
+				break;
+		}
+	}
+	
+	public void parseOperation(String operation){
+		int operatorIndex = -1; //track operator
+		
+		//remove invalid characters, all EXCEPT numbers +, -, *, /
+		for (int i = 0; i < operation.length(); i++){
+			if (this.isCharValid(operation.charAt(i))) {
+				if(this.isCharOp(operation.charAt(i))){					
+					operatorIndex = i;
+				}
+			} else {				
+				operation = operation.substring(0, i) + operation.substring(i+1);
+				i--;
+			}
+		}
+		
+		this.setNum1(Double.parseDouble(operation.substring(0, operatorIndex)));
+		this.setNum2(Double.parseDouble(operation.substring(operatorIndex + 1)));
+		this.operator = operation.charAt(operatorIndex);
+	}
+	
+	private boolean isCharValid(char ch){
+		return (this.isCharNum(ch) || this.isCharOp(ch)) ? true : false;			
+	}
+	
+	private boolean isCharNum(char ch){
+		return (ch >= '0' && ch <= '9') ? true : false;
+	}
+	
+	private boolean isCharOp(char ch){
+		return (ch == '-' ||
+			ch == '*' ||
+			ch == '/' ||
+			ch == '+' ) ? true : false;
+	}
+	
+	public boolean hasError(){
+		return (this.hasError) ? true : false;
+	}	
+}

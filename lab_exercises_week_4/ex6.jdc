@@ -1,0 +1,83 @@
+// Write a program in which you create and use a class called Point, with two fields of type double (e.g. x, y) and the
+// following methods:
+// distanceTo(Point): calculates the distance to another point.
+// distanceToOrigin(): calculates the distance to the origin. Implement it by calling the first method.
+// moveTo(double x, double y): changes the coordinates of this point to be the given parameters x and y.
+// moveTo(Point): changes the coordinates of this point to move where the given point is.
+// clone(): returns a copy of the current point with the same coordinates.
+// opposite(): returns a copy of the current point with the coordinates multiplied by −1.
+
+Point p1 = new Point();
+p1.x = 23.5;
+p1.y = 28.5;
+
+Point p2 = new Point();
+p2.x = 332.1;
+p2.y = 132.4;
+
+println("initial state: ");
+println("p1: " + p1.whereAmI());
+println("p2: " + p2.whereAmI());
+
+
+println("Distance from p1 to p2: " + p1.distanceTo(p2));
+println("Distance from p1 to origin: " + p1.distanceToOrigin());
+
+Point p3 = new Point();
+p3.moveTo(p1);
+println("new point p3 moves to p1.");
+println("p3: " + p3.whereAmI());
+
+p1.moveTo(p2.x, p2.y);
+println("p1 moves to x, y coordinates of p2");
+println("p1: " + p1.whereAmI());
+
+Point p4 = p1.clone();
+println("New point p4, is now also at: " + p4.whereAmI());
+
+Point p5 = p1.opposite();
+println("New point p5, is at the opposite coordinates: " + p5.whereAmI()); 
+
+class Point{
+	double x = 0.0;
+	double y = 0.0;
+
+	public double distanceTo(Point p2){
+		double a = this.x - p2.x;
+        double b = this.y - p2.y;        
+        return java.lang.Math.sqrt((a * a) + (b * b));
+	}
+	
+	public double distanceToOrigin(){
+		return this.distanceTo(new Point());
+	}
+	
+	public void moveTo(double x, double y){
+		this.x = x;
+		this.y = y;
+	}
+	
+	public void moveTo(Point p2){
+		this.x = p2.x;
+		this.y = p2.y;
+	}
+	
+	public String whereAmI(){
+		return "I am now at (" + String.valueOf(this.x) + "," + String.valueOf(this.y) + ")";
+	}
+	
+	public Point clone(){
+		Point q = new Point();
+		q.x = this.x;
+		q.y = this.y;
+		return q;
+	}
+	
+	public Point opposite(){
+		Point q = this.clone();
+		q.x *= -1;
+		q.y *= -1;
+		return q;		
+	}
+			
+}

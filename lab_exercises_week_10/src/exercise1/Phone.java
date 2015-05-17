@@ -1,0 +1,7 @@
+package exercise1;
+public interface Phone {
+/**
+* Just print on the screen: "Calling <number>...".
+*/
+void call(String number);
+}

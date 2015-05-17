@@ -1,0 +1,89 @@
+// Binary numbers can be quite long. A 32-bit memory address looks like 1001 0101 0110 1010 1011 0010 1001
+// 1010, which is difficult to handle. That is why memory addresses and other binary numbers are usually written as
+// hexadecimal numbers. An hexadecimal number is a base-16 number, with digits between 0 and f (f is equivalent to
+// decimal 15, e is equivalent to decimal 14, and so on). An hexadecimal number is equivalent to a four-digit binary
+// number, which makes them quite compact. The former address reads 956ab29a, which is easier to read and write.
+// To prevent confusion with decimal numbers, hexadecimal numbers are usually prefixed by “0x”, as in 0x95 (which
+// is 149) or 0xff (which is 255).
+// Write a program that takes a String. The string can be a decimal or a hexadecimal number (starting by “0x”).
+// Your program must recognise the number as what it is and convert it to the other base. Use two methods for
+// conversion as in the former exercise.
+
+HexToDecimalConvertor convertor = new HexToDecimalConvertor();
+
+println("Please enter your number: ");
+String theNumber = System.console().readLine();
+println(convertor.convertString(theNumber));
+
+class HexToDecimalConvertor{	
+	public String convertString(String str){
+		return (str.substring(0,2).equals("0x")) ? HexToDecimalConvertor.HexToDec(str.substring(2)) : HexToDecimalConvertor.DecToHex(str);
+	}
+	
+	public static String HexToDec(String input){
+		int decimalValue = 0;
+		for (int i = 0; i < input.length(); i++){
+			int digitValue = HexToDecimalConvertor.getHexValue(input.charAt(i));
+			println("adding: " + String.valueOf(digitValue * java.lang.Math.pow(15, input.length() - 1 - i)));
+			decimalValue += digitValue * java.lang.Math.pow(16, input.length() - 1 - i);
+		}
+		return String.valueOf(decimalValue);
+	}
+
+	public static String DecToHex(String input){
+		String backwardsHex = "";
+		int decimal = Integer.valueOf(input);
+		while (decimal > 16){
+			int remainder = decimal % 16;
+			if (remainder > 9) backwardsHex += getDecValue(remainder);
+			else backwardsHex += String.valueOf(remainder);
+			decimal /= 16;
+		}
+		backwardsHex += (decimal > 9) ? getDecValue(decimal) : String.valueOf(decimal);
+		
+		String hex = "0x";
+		for (int i = backwardsHex.length() - 1; i >= 0 ; i--){
+			hex += backwardsHex.charAt(i);		
+		}
+		
+		return hex;
+	}
+	
+	public static int getHexValue(char ch){
+		if (ch >= '0' && ch <= '9') return Character.getNumericValue(ch);
+		
+		switch (ch){
+			case 'a':
+				return 10;
+			case 'b':
+				return 11;
+			case 'c':
+				return 12;
+			case 'd':
+				return 13;
+			case 'e':
+				return 14;
+			case 'f':
+				return 15;
+		}
+		return -1;
+	}
+	
+	public static String getDecValue(int num){
+		switch (num){
+			case 10:
+				return "a";
+			case 11:
+				return "b";
+			case 12:
+				return "c";
+			case 13:
+				return "d";
+			case 14:
+				return "e";
+			case 15:
+				return "f";
+		}
+		return "x";
+	}
+}

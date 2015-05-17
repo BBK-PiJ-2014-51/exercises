@@ -1,0 +1,51 @@
+//ex 5 week 3
+TextParser tParser = new TextParser();
+println("Enter some text: ");
+tParser.setText(System.console().readLine());
+println("Enter a letter to count: ");
+tParser.setTheLetter(System.console().readLine().charAt(0));
+println("Letter e appeared: " + String.valueOf(tParser.countTheLetterE()) + " times");
+println("Your letter appeared: " + String.valueOf(tParser.countTheLetter()) + " times");
+class TextParser{
+	private String text = "";
+	private char theLetter = ' ';
+	
+	public void setText(String text){
+		this.text = text;
+	}
+	
+	public void setTheLetter(char letter){
+		this.theLetter = letter;
+	}
+	
+	public void outputCharPerLine(){
+		for (int i = 0; i < text.length(); i ++){
+			println(this.text.charAt(i));
+		}
+	}
+	
+	public void outputWordPerLine(){
+		for (int i = 0; i < text.length(); i ++){
+			if (this.text.charAt(i) == ' ')
+				println();
+			else 
+				print(this.text.charAt(i));
+		}
+	}
+	
+	public int countTheLetterE(){
+		int eOccurances = 0;
+		for (int i = 0; i < text.length(); i ++){
+			if (this.text.charAt(i) == 'e') eOccurances++;				
+		}
+		return eOccurances;
+	}
+	
+	public int countTheLetter(){
+		int count = 0;
+		for (int i = 0; i < text.length(); i ++){
+			if (this.text.charAt(i) == this.theLetter) count++;				
+		}
+		return count;
+	}		
+}

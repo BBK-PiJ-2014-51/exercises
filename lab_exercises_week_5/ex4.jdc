@@ -1,0 +1,14 @@
+// Create a program with a (recursive) method that takes a String parameter and returns true if the String is a
+// palindrome and false otherwise. Compare this recursive version with the iterative version you wrote in past weeks.
+// Which one seems clearer to you?
+
+println( PalindromeChecker.isPalindrome("racecar") ? "yes" : "no");
+println( PalindromeChecker.isPalindrome("not a palindrome") ? "yes" : "no");
+
+class PalindromeChecker{
+	static boolean isPalindrome(String word){
+		if (word.length() <= 1) return true;
+		if (word.charAt(0) == word.charAt(word.length()-1)) return isPalindrome(word.substring(1, word.length()-1));
+		else return false;
+	}
+}

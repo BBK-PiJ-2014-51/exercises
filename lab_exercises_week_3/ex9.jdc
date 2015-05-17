@@ -1,0 +1,14 @@
+// Write a program that reads a text and then writes on the screen a p
+// alindrome by writing the same text followed
+// by the same text in reversed order. For example, if the user enter
+// s the text “It was a dark and stormy night” the
+// program must output “It was a dark and stormy nightthgin ymrots
+// dna krad a saw tI”.
+
+println("Please enter some text: ");
+String text = System.console().readLine();
+int originalLength = text.length();
+for (int i = 0; i < originalLength; i++){
+	text += text.charAt(originalLength - 1 - i);
+}
+println(text);

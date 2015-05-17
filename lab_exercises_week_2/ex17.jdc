@@ -1,0 +1,31 @@
+println("Enter a number: ");
+String strIn = System.console().readLine();
+int theNumber = Integer.parseInt(strIn);
+
+int nextLowest, nextHighest;
+nextLowest = nextHighest = theNumber;
+
+while (true){
+	if (nextLowest != theNumber && primeNumberFinder.isPrimeNumber(nextLowest)) break;
+	nextLowest--;
+}
+
+while (true){
+	if (nextHighest != theNumber && primeNumberFinder.isPrimeNumber(nextHighest)) break;
+	nextHighest++;
+}
+
+println("Next highest: " + String.valueOf(nextHighest) + ". Next lowest: " + String.valueOf(nextLowest));
+
+class primeNumberFinder{
+
+	public static boolean isPrimeNumber(int num){
+		boolean isPrime = true;
+		for (int i = num -1; i > 1; i--){
+			if (num % i == 0){
+				isPrime = false;
+			}
+		}
+		return (isPrime) ? true : false;
+	}
+}

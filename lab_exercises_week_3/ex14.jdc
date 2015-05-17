@@ -1,0 +1,47 @@
+//Write a program that reads the coordinates of the two points defining a rectangle and then the coordinates of a third point. The program must then determine whether the point falls inside or outside the rectangle.
+Point p1 = new Point();
+Point p2 = new Point();
+Point p3 = new Point();
+Rectangle rectangle = new Rectangle();
+
+println("Please enter the x coordinate of the upper left corner: ");
+double coordinate = Double.parseDouble(System.console().readLine());
+p1.x = coordinate;
+println("Please enter the y coordinate of the upper left corner: ");
+coordinate = Double.parseDouble(System.console().readLine());
+p1.y = coordinate;
+rectangle.upLeft = p1;
+
+println("Please enter the x coordinate of the bottom right corner: ");
+coordinate = Double.parseDouble(System.console().readLine());
+p2.x = coordinate;
+println("Please enter the y coordinate of the bottom right corner: ");
+coordinate = Double.parseDouble(System.console().readLine());
+p2.y = coordinate;
+rectangle.downRight = p2;
+
+println("Please enter the x coordinate of the point to check: ");
+coordinate = Double.parseDouble(System.console().readLine());
+p3.x = coordinate;
+println("Please enter the y coordinate of the point to check: ");
+coordinate = Double.parseDouble(System.console().readLine());
+p3.y = coordinate;
+
+
+println( (isPointWithinRec(rectangle, p3)) ? "It is within the rectangle" : "It's not within the rectangle");
+
+boolean isPointWithinRec(Rectangle rectangle, Point point){
+    return ((point.x >= rectangle.upLeft.x && point.x <= rectangle.downRight.x) && (point.y >= rectangle.downRight.y && point.y <= rectangle.upLeft.y)) ? true : false;
+}
+
+class Point {
+    double x;
+    double y;
+}
+
+class Rectangle {
+    Point upLeft;
+    Point downRight;
+}
+
+

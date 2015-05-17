@@ -1,0 +1,12 @@
+int numberToGuess = (int) Math.abs(1000 * Math.random());
+
+while (true){
+	println("Enter a number: ");
+	String strIn = System.console().readLine();
+	int guess = Integer.parseInt(strIn);
+	if (guess == numberToGuess) break;
+	String message = (guess > numberToGuess) ? "Too high!" : "Too low!";
+	println(message + " Guess Again.");
+}
+
+println("You are right! The number was " + String.valueOf(numberToGuess));

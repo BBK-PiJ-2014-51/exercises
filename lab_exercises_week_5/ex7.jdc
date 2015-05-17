@@ -1,0 +1,31 @@
+//The legend of the Towers of Hanoi has inspired countless variations as mind games. Here is one of them: if we have three posts and 64 discs, where all the even-numbered discs are on the leftmost post while the odd-numbered discs are on the rightmost post, how many moves do we need to exchange the discs following the Hanoi rules for disc movement?
+//Write a method that calculates the number of moves necessary to exchange n discs.
+
+
+HanoiDiscs.test();
+
+class HanoiDiscs{
+    static int recursiveMoves(int n){
+        return (n < 3 && n >= 0) ? n : recursiveMoves(n-1) + 1 + recursiveMoves(n-1);
+    }
+
+    static int iterativeMoves(int n){
+        if (n < 3 && n >= 0) return n;
+        int moves = 2;
+        for (int i = 2; i < n; i++){
+            moves *= 2;
+            if (i % 4 != 0) moves++;
+        }
+        return moves;
+    }
+
+    static void test(){
+        for (int i = 0; i < 10; i++){
+            println(String.valueOf(HanoiDiscs.recursiveMoves(i)));
+        }
+        for (int i = 0; i < 10; i++){
+            println(String.valueOf(HanoiDiscs.iterativeMoves(i)));
+        }
+
+    }
+}

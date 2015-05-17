@@ -1,0 +1,61 @@
+//Write a program that reads the X and Y coordinates of two points and then outputs the area of a rectangle where both points are opposite corners. Use the following class to store the data for the points:
+//class Rectangle { Point upLeft; Point downRight;
+//}
+//Your program should calculate (and write on the screen) the perimeter and area of the rectangle.
+
+Point p1 = new Point();
+Point p2 = new Point();
+Rectangle rectangle = new Rectangle();
+
+println("Please enter the x coordinate of the upper left corner: ");
+double coordinate = Double.parseDouble(System.console().readLine());
+p1.x = coordinate;
+println("Please enter the y coordinate of the upper left corner: ");
+coordinate = Double.parseDouble(System.console().readLine());
+p1.y = coordinate;
+rectangle.upLeft = p1;
+
+println("Please enter the x coordinate of the bottom right corner: ");
+coordinate = Double.parseDouble(System.console().readLine());
+p2.x = coordinate;
+println("Please enter the y coordinate of the bottom right corner: ");
+coordinate = Double.parseDouble(System.console().readLine());
+p2.y = coordinate;
+rectangle.downRight = p2;
+
+println("The perimeter of the rectangle is: " + String.valueOf(RectangleHelper.getPerimeter(rectangle)));
+println("The area of the rectangle is: " + String.valueOf(RectangleHelper.getArea(rectangle)));
+
+class Point {
+    double x;
+    double y;
+}
+
+class Rectangle {
+    Point upLeft;
+    Point downRight;
+}
+
+class RectangleHelper{
+    //area of rectangle = side a * side b
+    public static double getArea(Rectangle rectangle){
+        double sideA = RectangleHelper.getSideA(rectangle);
+        double sideB = RectangleHelper.getSideB(rectangle);
+        return sideA * sideB;
+    }
+    
+    //perimeter of a rectangle = (side a * 2) + (side b * 2)
+    public static double getPerimeter(Rectangle rectangle){
+        double sideA = RectangleHelper.getSideA(rectangle);
+        double sideB = RectangleHelper.getSideB(rectangle);
+        return (sideA * 2) + (sideB * 2);
+    }
+    
+    private static double getSideA(Rectangle rectangle){
+        return rectangle.downRight.x - rectangle.upLeft.x;
+    }
+    private static double getSideB(Rectangle rectangle){
+        return rectangle.upLeft.y - rectangle.downRight.y;
+    }
+
+}

@@ -1,0 +1,21 @@
+//6 division
+
+println("Enter the first number: ");
+String str = System.console().readLine();
+int numerator = Integer.parseInt(str);
+println("Enter the second number: ");
+str = System.console().readLine();
+int divisor = Integer.parseInt(str);
+
+int divisions = 0;
+int remainder = 0;
+int originalNumerator = numerator;
+
+while (numerator >= divisor){
+	divisions++;
+	numerator -= divisor;
+}
+
+println(String.valueOf(originalNumerator) + " divided by " + String.valueOf(divisor) + " is " 
+		+ String.valueOf(divisions) + ", remainder " + String.valueOf(numerator));
+

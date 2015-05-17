@@ -1,0 +1,210 @@
+// 
+// Create a method that calculates the solution to the problem of the eight Dames: “given a 
+// chess board, and knowing that the Dame can reach any tile horizontally, vertically, or 
+// diagonally, place 8 Dames on the board so that none of them can reach the others by 
+// doing only one move”. You can return the solution as an array of 8x8 booleans where 
+// eight tiles are true (those with the Dames on them) and the others are false.
+// For extra complexity, make your method return all the possibilities in which the problem 
+// can be solved (this may take a long time).
+
+Chessboard board = new Chessboard();
+boolean[][][] allConfigs = board.getAllConfigs();
+
+
+class Chessboard{
+	public static final int CHESSBOARD_SIZE = 8;
+	private int matchCount = 0;
+	boolean[][][] answers; //= new boolean[1][CHESSBOARD_SIZE][CHESSBOARD_SIZE];
+	
+	public boolean[][][] getAllConfigs(){
+		boolean[][] initConfig = new boolean[CHESSBOARD_SIZE][CHESSBOARD_SIZE];
+		for (int i = 0; i < CHESSBOARD_SIZE; i++){
+			for (int j = 0; j < CHESSBOARD_SIZE; j++){
+				initConfig[i][j] = (i == j) ? true : false;
+			}
+		}
+		placeDames(CHESSBOARD_SIZE, initConfig);
+		return answers;
+	}
+	
+	public void placeDames(int rowsLeft, boolean[][]currentRowConfig){
+		if (rowsLeft == 0){
+			if (checkAllDames(currentRowConfig)) {
+				matchCount++;
+				printBoard(currentRowConfig);
+				recordAnswer(currentRowConfig);
+			}
+		} else { //else try the remaining configs
+			for (int i = 0; i < rowsLeft; i++){
+				boolean[][] nextConfig = placeRow(i, rowsLeft, currentRowConfig);
+				placeDames(rowsLeft - 1, nextConfig);
+			}
+		}
+	}
+	
+	private void recordAnswer(boolean[][] currentRowConfig){
+		boolean[][][] newAnswers = new boolean[matchCount][CHESSBOARD_SIZE][CHESSBOARD_SIZE];
+		if (matchCount > 1){
+			for (int match = 0; match < matchCount -1; match++){
+				for (int i = 0; i < CHESSBOARD_SIZE; i++){
+					for (int j = 0; j < CHESSBOARD_SIZE; j++){
+						newAnswers[match][i][j] = answers[match][i][j];
+					}
+				}
+			}
+		}	
+		for (int i = 0; i < CHESSBOARD_SIZE; i++){
+			for (int j = 0; j < CHESSBOARD_SIZE; j++){
+				newAnswers[matchCount -1][i][j] = currentRowConfig[i][j];		
+			}
+		}	
+		answers = newAnswers;
+	}
+	
+	boolean[][] placeRow(int rowToMoveIndex, int rowsLeft, boolean[][]currentRowConfig){
+		
+		// copy into new array
+		boolean[][] newConfig = new boolean[CHESSBOARD_SIZE][CHESSBOARD_SIZE];
+		for (int i = 0; i < CHESSBOARD_SIZE; i++){
+			for (int j = 0; j < CHESSBOARD_SIZE; j++){
+				newConfig[i][j] = currentRowConfig[i][j];
+			}
+		}
+		
+		//swap row
+		for (int i = 0; i < CHESSBOARD_SIZE; i++){
+			boolean tempValue = newConfig[CHESSBOARD_SIZE - rowsLeft][i];
+			newConfig[CHESSBOARD_SIZE - rowsLeft][i] = newConfig[rowToMoveIndex][i];
+			newConfig[rowToMoveIndex][i] = tempValue;
+		}
+		
+		return newConfig;
+	}
+	
+	private void printBoard(boolean[][] board){
+		println("Match found!!!");
+		println("That's match number: " + String.valueOf(matchCount));
+		println("Printing board....");
+		for (int i = 0; i < CHESSBOARD_SIZE; i++){
+			for (int j = 0; j < CHESSBOARD_SIZE; j++){
+				String symbol = (board[i][j]) ? "Q" : "-";
+				print("\t" + symbol);
+			}
+			println();
+		}
+		println("***************************************************");
+	}
+	
+	private boolean checkAllDames(boolean[][] config){
+		boolean allPass = true;
+		for (int i = 0; i < CHESSBOARD_SIZE; i++){
+			for (int j = 0; j < CHESSBOARD_SIZE; j++){
+				if (config[i][j]) {
+					if (! canPlaceDameHere(j,i, config)) allPass = false;
+				}		
+			}		
+		}
+		return allPass;
+	}
+	
+	private boolean canPlaceDameHere(int col, int row, boolean[][] board){
+		if (!checkNorth(col,row-1, board)) return false;
+		if (!checkSouth(col,row + 1, board)) return false;
+		if (!checkEast(col + 1,row, board)) return false;
+		if (!checkWest(col - 1,row, board)) return false;
+		if (!checkNorthEast(col + 1 ,row -1, board)) return false;
+		if (!checkSouthWest(col -1,row + 1, board)) return false;
+		if (!checkSouthEast(col + 1,row + 1, board)) return false;
+		if (!checkNorthWest(col - 1 ,row - 1, board)) return false;
+		return true;
+	}
+	
+	private boolean checkNorth(int col, int row, boolean[][] board){
+		if (isOutOfBounds(col, row, board)){
+			return true;
+		} else if (board[row][col]){
+			return false;
+		} else {
+			return checkNorth(col, row - 1, board);
+		}
+	}
+	
+	private boolean checkSouth(int col, int row, boolean[][] board){
+		if (isOutOfBounds(col, row, board)){
+			return true;
+		} else if (board[row][col]){
+			return false;
+		} else {
+			return checkSouth(col, row + 1, board);
+		}
+	}
+	
+	private boolean checkEast(int col, int row, boolean[][] board ){
+		if (isOutOfBounds(col, row, board)){
+			return true;
+		} else if (board[row][col]){
+			return false;
+		} else {
+			return checkEast(col + 1, row, board);
+		}
+	}
+	
+	private boolean checkWest(int col, int row, boolean[][] board){
+		if (isOutOfBounds(col, row, board)){
+			return true;
+		} else if (board[row][col]){
+			return false;
+		} else {
+			return checkWest(col - 1, row, board);
+		}
+	}
+	
+	private boolean checkNorthEast(int col, int row, boolean[][] board){
+		if (isOutOfBounds(col, row, board)){
+			return true;
+		} else if (board[row][col]){
+			return false;
+		} else {
+			return checkNorthEast(col+1, row - 1, board);
+		}
+	}
+	
+	private boolean checkSouthEast(int col, int row, boolean[][] board){
+		if (isOutOfBounds(col, row, board)){
+			return true;
+		} else if (board[row][col]){
+			return false;
+		} else {
+			return checkSouthEast(col + 1, row + 1, board);
+		}
+	}
+	
+	private boolean checkNorthWest(int col, int row, boolean[][] board){
+		if (isOutOfBounds(col, row, board)){
+			return true;
+		} else if (board[row][col]){
+			return false;
+		} else {
+			return checkNorthWest(col - 1, row - 1, board);
+		}
+	}
+	
+	private boolean checkSouthWest(int col, int row, boolean[][] board){
+		if (isOutOfBounds(col,row, board)){
+			return true;
+		} else if (board[row][col]){
+			return false;
+		} else {
+			return checkSouthWest(col - 1, row + 1, board);
+		}
+	}
+	
+	private boolean isOutOfBounds(int col, int row, boolean[][] board){
+		if ((col < 0 || col >= CHESSBOARD_SIZE)  || (row < 0 || row >= CHESSBOARD_SIZE)){
+			return true;
+		} else{
+			return false;
+		}
+	}
+	
+}

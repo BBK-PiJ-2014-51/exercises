@@ -1,0 +1,13 @@
+//8
+
+int lastNum = Integer.MIN_VALUE;
+
+while(true){
+	println("Enter a number or -1 to quit: ");
+	String str = System.console().readLine();
+	int num = Integer.parseInt(str);
+	if (num == -1) break;
+	if (num > highNum) highNum = num;
+}
+
+println(String.valueOf(highNum));

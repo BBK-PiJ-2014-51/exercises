@@ -1,0 +1,29 @@
+// Write a program that reads a number with commas and decimal dots (
+// such as “23,419.34”) and then prints a
+// number that is half of it. Do not use
+// Double.parseDouble()
+// If you were writing a simple spreadsheet, you could use this code to p
+// arse the input in the cells.
+
+println("Please enter the amount: ");
+String amount = System.console().readLine();
+String newAmount = "";
+
+//remove commas
+for (int i = 0; i < amount.length(); i++){
+	if (amount.charAt(i) != ',') newAmount += amount.charAt(i);
+}
+
+int decimalIndex = 0;
+String integerAmount = "";
+while (newAmount.charAt(decimalIndex) != '.'){
+	integerAmount += newAmount.charAt(decimalIndex);
+	decimalIndex++;
+}
+
+String decimalAmount = "";
+decimalAmount += newAmount.charAt(decimalIndex + 1);
+decimalAmount += newAmount.charAt(decimalIndex + 2);
+
+double finalAmount = (double) Integer.parseInt(integerAmount) + ( (double) Integer.parseInt(decimalAmount) / 100.0);
+println(String.valueOf(finalAmount / 2));

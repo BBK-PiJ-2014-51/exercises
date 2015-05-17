@@ -1,0 +1,91 @@
+//ex 1 week 3
+Calculator calculator = new Calculator();
+for (int i = 0; i < Calculator.NUMBERS; i++){
+	println("Enter num" + i);
+	String str = System.console().readLine();
+	if (i == 0) {
+		calculator.setNum1(Double.parseDouble(str));
+	} else {
+		calculator.setNum2(Double.parseDouble(str));
+	}
+}
+
+println("The numbers are: " + String.valueOf(calculator.getNum1()) + " & " + String.valueOf(calculator.getNum2()));
+println("Do you want to add, subtract, multiply, or divide?");	
+String operation = System.console().readLine();
+double answer = 0.0;
+switch (operation){
+	case "add":
+		calculator.add();
+		break;
+	case "subtract":
+		calculator.subtract();
+		break;
+	case "multiply":
+		calculator.multiply();
+		break;
+	case "divide":
+		calculator.divide();
+		break;
+	default:
+		calculator.setError();
+		break;
+}
+
+if (calculator.hasError()){
+	println("ERROR! Try again!");
+} else {
+	println("The answer is: " + String.valueOf(calculator.getAnswer()));
+}
+
+class Calculator{
+	public final static int NUMBERS = 2;
+	private double num1 = 0.0;
+	private double num2 = 0.0;
+	private double answer = 0.0;
+	private boolean hasError = false;
+	
+	public void setNum1(double num1){
+		this.num1 = num1;
+	}
+	
+	public void setNum2(double num2){
+		this.num2 = num2;
+	}
+	
+	public double getNum1(){
+		return this.num1;
+	}
+	
+	public double getNum2(){
+		return this.num2;
+	}
+	
+	public void setError(){
+		this.hasError = true;
+	}
+	
+	public double getAnswer(){
+		return answer;
+	}
+	
+	public void multiply(){
+		answer = num1 * num2;
+	}
+	
+	public void divide(){
+		answer = num1 / num2;
+	}
+
+	public void add(){
+		answer = num1 + num2;
+	}
+
+	public void subtract(){
+		answer = num1 - num2;
+	}
+	
+	public boolean hasError(){
+		return (this.hasError) ? true : false;
+	}	
+}

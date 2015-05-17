@@ -1,0 +1,111 @@
+// 8 How big is your stack? (*)
+// Write a method that calculates the maximum size of the stack (measured in method calls) 
+// by forcing a StackOverflowError. Use different methods, which different number and types 
+// of local variables, and see how the number of maximum function calls changes.
+
+while(true){
+	println("Choose a method:");
+	println("A for Empty.");
+	println("B for a boolean.");
+	println("C for some stuff.");
+	println("D for some strings and stuff.");
+	println("E for an uninitialized String");
+	println("F for a string with characters");
+	println("G for an empty string");
+	String input = System.console().readLine();
+	if (input.toUpperCase().equals("A")){
+		StackOverflower.infiniteRecursionA(0);
+	} else if (input.toUpperCase().equals("B")){
+		StackOverflower.infiniteRecursionB(0);
+	} else if (input.toUpperCase().equals("C")){
+		StackOverflower.infiniteRecursionC(0);
+	} else if (input.toUpperCase().equals("D")){
+		StackOverflower.infiniteRecursionD(0);
+	} else if (input.toUpperCase().equals("E")){
+		StackOverflower.infiniteRecursionE(0);
+	} else if (input.toUpperCase().equals("F")){
+		StackOverflower.infiniteRecursionF(0);
+	} else if (input.toUpperCase().equals("G")){
+		StackOverflower.infiniteRecursionG(0);
+	} 
+}
+
+class StackOverflower {
+
+	public static void infiniteRecursionA(int counter){
+		try{
+			infiniteRecursionA(++counter);
+		} catch (Error er){
+			println("StackOver flow after " + String.valueOf(counter) + " recursive calls!");
+		}
+	}
+	
+	public static void infiniteRecursionB(int counter){
+		boolean solo;
+		try{
+			infiniteRecursionB(++counter);
+		} catch (Error er){
+			println("StackOver flow after " + String.valueOf(counter) + " recursive calls!");
+		}
+		
+	}
+	
+	public static void infiniteRecursionC(int counter){
+		int a;
+		int b;
+		int c;
+		double d;
+		try{
+			infiniteRecursionC(++counter);
+		} catch (Error er){
+			println("StackOver flow after " + String.valueOf(counter) + " recursive calls!");
+		}
+	}
+	
+	public static void infiniteRecursionD(int counter){
+		long a;
+		long b;
+		long c;
+		double d;
+		double e;
+		double f;
+		double g;
+		String h = "There are strings in this method";
+		String i = "There are strings in this method";
+		String j = "There are strings in this method";
+		String k = "There are strings in this method";
+		String l = "There are strings in this method";
+		
+		try{
+			infiniteRecursionD(++counter);
+		} catch (Error er){
+			println("StackOverflow after " + String.valueOf(counter) + " recursive calls!");
+		}
+	}
+	
+	public static void infiniteRecursionE(int counter){
+		String a;
+		try{
+			infiniteRecursionE(++counter);
+		} catch (Error er){
+			println("StackOverflow after " + String.valueOf(counter) + " recursive calls!");
+		}
+	}
+	public static void infiniteRecursionF(int counter){
+		String a = "has some more characters than E does";
+		try{
+			infiniteRecursionF(++counter);
+		} catch (Error er){
+			println("StackOverflow after " + String.valueOf(counter) + " recursive calls!");
+		}
+	}
+	
+	public static void infiniteRecursionG(int counter){
+		String a = "";
+		try{
+			infiniteRecursionG(++counter);
+		} catch (Error er){
+			println("StackOverflow after " + String.valueOf(counter) + " recursive calls!");
+		}
+	}
+}

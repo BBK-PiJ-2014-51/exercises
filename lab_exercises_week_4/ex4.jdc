@@ -1,0 +1,59 @@
+// Create a program in which you define the following methods:
+//
+// binary2decimal(String): takes from the user a binary number (with digits 0 and 1) and returns the corresponding
+// number in decimal (base-10, with digits between 0 and 9).
+//
+// decimal2binary(int): the opposite of the previous one: takes a decimal number and returns the corresponding
+// binary number. Hint: instead of multiplying by 2, you will need to divide by two this time.
+//
+// The program must offer a menu to the user with two options. The first one takes a binary number from the
+// user and returns the corresponding decimal number. The second one does the opposite: takes a decimal number
+// and returns a binary number. The program should use the methods defined.
+
+println("Please enter your number: ");
+String theNumber = System.console().readLine();
+println("What do you want to convert?");
+println("Enter 2 for binary to decimal.");
+println("Enter 10 for decimal to binary.");
+int operation = Integer.parseInt(System.console().readLine());
+
+while(true){
+	if (operation == 2){
+		println("Output: " + String.valueOf(NumberConvertor.binary2decimal(theNumber)));
+		break;
+	} else if (operation == 10 ){
+		print("Output: " + NumberConvertor.decimal2binary(Integer.parseInt(theNumber)));
+		break;
+	} else {
+		println("Not a valid operation. Try again");
+		operation = Integer.parseInt(System.console().readLine());
+	}
+}
+
+
+class NumberConvertor{
+
+	public static int binary2decimal(String binary){
+		int answer = 0;
+		for (int i = 1; i <= binary.length(); i++){
+			if(binary.charAt(binary.length() - i) == '1')
+				answer += java.lang.Math.pow(2, i - 1);				
+		}
+		return answer;
+	}
+	
+	public static String decimal2binary(int decimal){
+		String backwardsBinary = "";
+		while (decimal > 0){
+			backwardsBinary += (decimal % 2 == 1) ? "1" : "0";
+			decimal /= 2;
+		}
+		
+		String binary = "";
+		for (int i = backwardsBinary.length() - 1; i >= 0 ; i--){
+			binary += backwardsBinary.charAt(i);		
+		}
+		
+		return binary;
+	}
+}

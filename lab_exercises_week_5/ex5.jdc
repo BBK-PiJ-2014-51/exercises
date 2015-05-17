@@ -1,0 +1,23 @@
+// Create a class with a static method pow that takes to integers (base and exponent) and calculates the power,
+// e.g. pow(2,3) calculates 23
+// Is it easy to do this both iteratively and recursively?
+
+println(String.valueOf(ExponentCalc.pow(2,2)));
+println(String.valueOf(ExponentCalc.pow(10,3)));
+println(String.valueOf(ExponentCalc.powIterative(2,2)));
+println(String.valueOf(ExponentCalc.powIterative(10,3)));
+class ExponentCalc{
+	static int pow(int base, int exponent){
+		if (exponent == 1) return base;
+		return base * pow(base, exponent -1);
+	}
+	
+	static int powIterative(int base, int exponent){
+		
+		int result = 1;
+		for (int i = 1; i <= exponent; i++){
+			result *=  base;
+		}
+		return result;
+	}
+}

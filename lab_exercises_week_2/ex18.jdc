@@ -1,0 +1,20 @@
+
+int n = Integer.MIN_VALUE;
+while (n < 1){
+	println("Enter a positive number n: ");
+	String strIn = System.console().readLine();
+	n = Integer.parseInt(strIn);
+}
+
+int numerator = 4;
+double pi = 0.0;
+for (int i = 1, j = 1; i <= n; i++, j += 2){
+		double numToApply = (double) numerator / j;
+	if ( i % 2 == 1){ //odd iterations #1, 3, 5, etc
+		pi += numToApply;
+	} else { //others
+		pi -= numToApply;
+	}
+}
+
+println(String.valueOf(pi));

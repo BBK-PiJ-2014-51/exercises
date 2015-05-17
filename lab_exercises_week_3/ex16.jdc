@@ -1,0 +1,114 @@
+// Once the return address and recipient are correct, and only then, the user can enter the command “DATA”. The program reads then the body of the email, line after line, until the user enters a line that consists of only a dot. At that point, the email is ready and the program must write on the screen who is sending the email, to whom, and what the email says.
+
+MailMessage message = new MailMessage();
+message.welcome();
+while (message.getCommand());
+
+
+class MailMessage{
+    String toAddress = "";
+    String fromAddress = "";
+    String data = "";
+    
+    boolean parseCommand(String data){
+        if (data.length() < 4){
+            println("Invalid Command");
+            return false;
+        }else if (data.substring(0,4).equals("DATA")){
+            return setData();
+        } else if (data.length() < 11) {
+            println("Invalid Command");
+            return false;
+        } else if (data.substring(0,11).equals("MAIL FROM: ")){
+            return setFromAddress(data.substring(11));
+        } else if (data.substring(0,11).equals("RCPT FROM: ")){
+            return setToAddress(data.substring(11));
+        } else         println("Invalid Command");
+        return false;
+    }
+
+    void welcome(){
+        println("Welcome to My Mail Server");
+    }
+    
+    boolean getCommand(){
+        String command = System.console().readLine();
+        if (command.equals("QUIT")) return quit();
+        parseCommand(command);
+        return true;
+    }
+    
+    boolean quit(){
+        println("Bye!");
+        return false;
+    }
+    
+    boolean setData(){
+        if (this.toAddress.isEmpty() || this.fromAddress.isEmpty()) {
+            println("Invalid Command");
+            return false;
+        }
+        String data = "";
+        while (true){
+            String line = System.console().readLine();
+            if (line.equals(".")) {
+                break;
+            } else {
+                data += line;
+            }
+        }
+        this.data = data;
+        return true;
+    }
+
+    
+    boolean setToAddress(String address){
+        if (this.fromAddress.isEmpty()){
+            println("Invalid Command");
+            return false;
+        }
+        
+        
+        if(isEmailValid(address)){
+            this.toAddress = address;
+        }
+        if(this.toAddress.isEmpty()){
+            println("Invalid email address");
+            return false;
+        } else {
+            println("OK");
+            return true;
+        }
+    }
+
+    
+    boolean setFromAddress(String address){
+        if(isEmailValid(address)){
+            this.fromAddress = address;
+        }
+        if(this.fromAddress.isEmpty()){
+            println("Invalid email address");
+            return false;
+        } else {
+            println("OK");
+            return true;
+        }
+    }
+    
+    boolean isEmailValid(String email){
+        if (email.charAt(0) == '@') return false;
+        if (email.charAt(email.length() - 1) == '@') return false;
+        boolean hasAtSymbol = false;
+        for (int i = 0; i < email.length(); i++){
+            if (email.charAt(i) == '@'){
+                if (!hasAtSymbol){
+                    hasAtSymbol = true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return hasAtSymbol;
+    }
+    
+}

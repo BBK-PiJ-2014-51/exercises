@@ -1,0 +1,20 @@
+println("Enter a number: ");
+String strIn = System.console().readLine();
+int theNumber = Integer.parseInt(strIn);
+
+for (int i = 0; i < theNumber + 1; i++){
+	if (primeNumberFinder.isPrimeNumber(i)) println(String.valueOf(i));
+}
+
+class primeNumberFinder{
+
+	public static boolean isPrimeNumber(int num){
+		boolean isPrime = true;
+		for (int i = num -1; i > 1; i--){
+			if (num % i == 0){
+				isPrime = false;
+			}
+		}
+		return (isPrime) ? true : false;
+	}
+}

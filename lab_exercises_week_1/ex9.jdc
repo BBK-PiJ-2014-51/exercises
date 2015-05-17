@@ -1,0 +1,26 @@
+//9
+
+int lastNum = Integer.MIN_VALUE;
+boolean inOrderUp = true;
+boolean hasGuessed = false;
+
+while(true){
+	println("Enter a number or -1 to quit: ");
+	String str = System.console().readLine();
+	int num = Integer.parseInt(str);
+	if (num == -1) break;
+	if (num > 0){
+		hasGuessed = true;
+		if (lastNum != Integer.MIN_VALUE){
+			if (num != lastNum + 1){ 
+				inOrderUp = false;
+			}
+		}
+		lastNum = num;
+	}
+}
+
+if (inOrderUp && hasGuessed){
+	println("Yes");
+} else
+	println("No");

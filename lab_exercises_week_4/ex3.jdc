@@ -1,0 +1,53 @@
+// Write a program that asks the user for the total amount borrowed for a mortgage, the number of years to pay it
+// back, and the interest rate (in this exercise, we assume it is a fixed rate). The program can then calculate how
+// much must be paid at the end
+// t = c ( 1 + r / 100 )
+// where t is the total, c is the cost, and r is the rate as a percentage. The program should print:
+	// The total amount to be paid
+	// The money to be paid every year
+	// The number of years before the interest is paid and only the initial capital remains
+// Write a method to calculate each piece of data.
+
+MortgageCalc calc = new MortgageCalc();
+
+println("Please enter the total amount borrowed: ");
+calc.setAmountBorrowed(Double.parseDouble(System.console().readLine()));
+println("Please enter the length of the term in years: ");
+calc.setTerm(Integer.parseInt(System.console().readLine()));
+println("Please enter the overall fixed interest rate: ");
+calc.setRate(Double.parseDouble(System.console().readLine()));
+
+println("The total amount to be paid is: " + String.valueOf(calc.getTotalAmountToPay()));
+println("The money to be paid every year is: " + String.valueOf(calc.getAmtToPayPerYear()));
+println("The number of years it will take to pay only the interest is: " + String.valueOf(calc.getNumYearsToPayInterestOnly()));
+
+class MortgageCalc{
+		double amt_borrowed = 0.0;
+		int term = 0;
+		double rate = 0.0;
+		
+		public void setAmountBorrowed(double amount){
+			this.amt_borrowed = amount;
+		}
+		
+		public void setTerm(int length){
+			this.term = length;
+		}
+		
+		public void setRate(double rate){
+			this.rate = rate;
+		}
+		
+		public double getTotalAmountToPay(){
+			return this.amt_borrowed * ( 1 + this.rate/100);
+		}
+		
+		public double getAmtToPayPerYear(){
+			return this.getTotalAmountToPay() / (double) term;			
+		}
+		
+		public double getNumYearsToPayInterestOnly(){
+			double interestTotal = this.getTotalAmountToPay() - this.amt_borrowed;
+			return interestTotal / this.getAmtToPayPerYear();			
+		}
+}

@@ -1,0 +1,15 @@
+//5 requests two numbers and returns the product without using the * operator
+
+println("Enter the first number: ");
+String str = System.console().readLine();
+int num1 = Integer.parseInt(str);
+println("Enter the second number: ");
+str = System.console().readLine();
+int num2 = Integer.parseInt(str);
+int product = 0;
+
+for (int i = 0; i < num1; i++){
+	product += num2;
+}
+
+println("The product is " + String.valueOf(product));

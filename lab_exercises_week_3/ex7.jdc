@@ -1,0 +1,69 @@
+// 7 Counting letters redux (*)
+// Write a program that reads a text from the user and then enter a
+// loop of requesting letters and counting them.
+// The program stops if the user asks for the same letter twice. This is
+// an example of the output of such a program
+// (with a rather short and boring text):
+// Please write a text: It was a dark and stormy night
+// Which letter would you like to count now? a
+// There are 6 in your text.
+// Which letter would you like to count now? s
+// There are 3 in your text.
+// Which letter would you like to count now? u
+// There are 0 in your text.
+// Which letter would you like to count now? a
+// Repeated character. Exiting the program...
+// Thank you for your cooperation. Good bye!
+
+
+TextHelper tHelper = new TextHelper();
+
+println("Please write a text: ");
+tHelper.setText(System.console().readLine());
+
+while(true){	
+	println("Which letter would you like to count now? ");
+	tHelper.setTheLetter(System.console().readLine().charAt(0));
+	if (tHelper.hasTheLetterBeenGuessed()) break;
+	println("Your letter appeared: " + String.valueOf(tHelper.countTheLetter()) + " times");
+}
+println("Thank you for your cooperation. Good bye!");
+
+class TextHelper{
+	private String text = "";
+	private char theLetter = ' ';
+	private String guessedChars = "";
+	
+	public void setText(String text){
+		this.text = text;
+	}
+	
+	public void setTheLetter(char letter){
+		this.theLetter = letter;
+		
+	}
+	
+	public char getTheLetter(){
+		return this.theLetter;
+	}
+	
+	public void addGuessedLetter(){
+			this.guessedChars += this.theLetter;
+	}
+	
+	public boolean hasTheLetterBeenGuessed(){
+		for (int i = 0; i < guessedChars.length(); i++){
+			if (this.theLetter == guessedChars.charAt(i)) return true;
+		}
+		this.addGuessedLetter();
+		return false;
+	}
+	
+	public int countTheLetter(){
+		int count = 0;
+		for (int i = 0; i < text.length(); i ++){
+			if (this.text.charAt(i) == this.theLetter) count++;				
+		}
+		return count;
+	}		
+}

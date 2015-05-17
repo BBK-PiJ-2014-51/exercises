@@ -1,0 +1,11 @@
+println("Enter a number: ");
+String strIn = System.console().readLine();
+int theNumber = Integer.parseInt(strIn);
+
+for (int i = 0; i < theNumber + 1; i++){
+	String strOut = String.valueOf(i);
+	for (int j = 0; j < i; j++){
+		print(strOut);	
+	}
+	println();
+}

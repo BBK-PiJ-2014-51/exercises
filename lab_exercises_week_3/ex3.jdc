@@ -1,0 +1,65 @@
+// ex 3
+// Write a program that reads the total cost of a purchase and an am
+// ount of money that is paid to buy it. Your
+// program should output the correct change specifying the amount
+// of notes (50, 20, 10, 5) and coins (2, 1, 0.50, 0.20,
+// 0.10, 0.05, 0.02, 0.01) needed. 
+
+
+CashRegister cRegister = new CashRegister();
+println("Please enter the total cost: ");
+double cost = Double.parseDouble(System.console().readLine());
+cRegister.setPrice(cost);
+println("Please enter the amount paid: ");
+double paid = Double.parseDouble(System.console().readLine());
+cRegister.setAmtPaid(paid);
+cRegister.calculateChangeDue();
+cRegister.printChangeDue();
+
+class CashRegister{
+	private double price = 0.0;
+	private double amtPaid = 0.0;
+	private double changeDue = 0.0;
+	
+	public void setPrice(double amt){
+		this.price = amt;
+	}
+	
+	public void setAmtPaid(double amt){
+		this.amtPaid = amt;
+	}
+	
+	public void calculateChangeDue(){
+		this.changeDue = this.amtPaid - this.price;
+	}
+	
+	public void printChangeDue(){
+		println("The customer is due: " + String.valueOf(this.changeDue));
+		println("That is...");
+		println(String.valueOf(issueCurrency(50.0)) + " : Fifty pound notes");
+		println(String.valueOf(issueCurrency(20.0)) + " : Twenty pound notes");
+		println(String.valueOf(issueCurrency(10.0)) + " : Ten pound notes");
+		println(String.valueOf(issueCurrency(5.0)) + " : Five pound notes");
+		println(String.valueOf(issueCurrency(2.0)) + " : Two pound coins");
+		println(String.valueOf(issueCurrency(1.0)) + " : One pound coin");
+		println(String.valueOf(issueCurrency(0.50)) + " : Fifty p coins");
+		println(String.valueOf(issueCurrency(0.20)) + " : Twenty p coins");
+		println(String.valueOf(issueCurrency(0.10)) + " : Ten p coins");
+		println(String.valueOf(issueCurrency(0.05)) + " : Five coins");
+		println(String.valueOf(issueCurrency(0.02)) + " : Two p coins");
+		println(String.valueOf(issueCurrency(0.01)) + " : One p coins");
+	}
+	
+	// decrements the change due total by the value of the coin/note passed in as many times as possible
+	// returns how many times that happened.
+	private int issueCurrency(double unitValue){
+		int numIssued = 0;
+		while(this.changeDue >= unitValue){
+			this.changeDue -= unitValue;
+			numIssued++;
+		}
+		return numIssued;
+	}
+	
+
+}

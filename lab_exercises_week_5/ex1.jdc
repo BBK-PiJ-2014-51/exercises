@@ -1,0 +1,23 @@
+//ex1c
+Doggy doggy = new Doggy();
+println(doggy.buggyMethod(12));
+println(doggy.doggyMethod(6));
+
+
+class Doggy{
+	String doggyMethod(int n) {
+		if (n <= 0) {
+			return "";
+		}
+		String result = doggyMethod(n-3) + String.valueOf(n) + doggyMethod(n-2);
+		
+		
+		return result;
+	}
+	String buggyMethod(int n) {
+		if (n < 0) {
+			return "";
+		}
+		return n + " " + buggyMethod(n - 2);
+	}
+}

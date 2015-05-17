@@ -1,0 +1,77 @@
+//Write a program that reads the coordinates of four point points, the former two defining one rectangle and the latter two defining another one. The program must read the coordinates of a fifth point and say whether the point is inside both rectangles, inside one of them only, or out of both.
+
+Point p1 = new Point();
+Point p2 = new Point();
+Point p3 = new Point();
+Point p4 = new Point();
+Point p5 = new Point();
+Rectangle rec1 = new Rectangle();
+Rectangle rec2 = new Rectangle();
+
+println("Please enter the x coordinate of the upper left corner of rec 1: ");
+double coordinate = Double.parseDouble(System.console().readLine());
+p1.x = coordinate;
+println("Please enter the y coordinate of the upper left corner of rec 1: ");
+coordinate = Double.parseDouble(System.console().readLine());
+p1.y = coordinate;
+rec1.upLeft = p1;
+
+println("Please enter the x coordinate of the bottom right corner of rec 1: ");
+coordinate = Double.parseDouble(System.console().readLine());
+p2.x = coordinate;
+println("Please enter the y coordinate of the bottom right corner of rec 1: ");
+coordinate = Double.parseDouble(System.console().readLine());
+p2.y = coordinate;
+rec1.downRight = p2;
+
+println("Please enter the x coordinate of the upper left corner of rec 2: ");
+coordinate = Double.parseDouble(System.console().readLine());
+p3.x = coordinate;
+println("Please enter the y coordinate of the upper left corner of rec 2: ");
+coordinate = Double.parseDouble(System.console().readLine());
+p3.y = coordinate;
+rec2.upLeft = p3;
+
+println("Please enter the x coordinate of the bottom right corner of rec 2: ");
+coordinate = Double.parseDouble(System.console().readLine());
+p4.x = coordinate;
+println("Please enter the y coordinate of the bottom right corner of rec 2: ");
+coordinate = Double.parseDouble(System.console().readLine());
+p4.y = coordinate;
+rec2.downRight = p4;
+
+println("Please enter the x coordinate of the point to check: ");
+coordinate = Double.parseDouble(System.console().readLine());
+p5.x = coordinate;
+println("Please enter the y coordinate of the point to check: ");
+coordinate = Double.parseDouble(System.console().readLine());
+p5.y = coordinate;
+
+
+boolean inRec1 = isPointWithinRec(rec1, p5);
+boolean inRec2 = isPointWithinRec(rec2, p5);
+
+if (inRec1 && inRec2) {
+    println("It's in both rectangles");
+} else if (inRec1) {
+    println("It's in the first one only");
+} else if (inRec2){
+    println("It's only in the second one");
+} else {
+    println("it's not in either rectangle");
+}
+
+
+boolean isPointWithinRec(Rectangle rectangle, Point point){
+return ((point.x >= rectangle.upLeft.x && point.x <= rectangle.downRight.x) && (point.y >= rectangle.downRight.y && point.y <= rectangle.upLeft.y)) ? true : false;
+}
+
+class Point {
+    double x;
+    double y;
+}
+
+class Rectangle {
+    Point upLeft;
+    Point downRight;
+}

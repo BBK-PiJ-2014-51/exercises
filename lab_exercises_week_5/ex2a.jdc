@@ -1,0 +1,26 @@
+// 2.1 a) Factorial
+// Write a small program with a method that calculates the factorial of an integer number as seen in the notes.
+// Is it easy to do this both iteratively and recursively? Try both ways and see which is more natural for you. If
+// one takes too long, try the other way.
+
+FactorialCalc calc = new FactorialCalc();
+println(calc.iterativeFactorial(4));
+println(calc.recursiveFactorial(4));
+
+class FactorialCalc{
+	int iterativeFactorial(int n){
+		int result = n;
+		while (n > 1){
+			result *= --n;			
+		}		
+		return result;
+	}
+	
+	int recursiveFactorial(int n){
+		if (n==0) {
+			return 1;
+		} else {
+			return n * recursiveFactorial(n-1);
+		}
+	}
+}

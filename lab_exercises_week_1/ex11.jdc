@@ -1,0 +1,243 @@
+//11
+
+int cards[] = new int[PokerHelper.CARDS_PER_HAND];
+
+//Get the hand from the user
+for (int i = 0; i < PokerHelper.CARDS_PER_HAND; i++){
+
+	//get face value
+	println("Enter the card: ");
+	String str = System.console().readLine();
+	int cardNo = Integer.MIN_VALUE;
+	
+	// validate input
+	if (!PokerHelper.isValidRank(str)){
+		while (true){
+			println("Enter the card ( 1-10, J, Q, or K: ");
+			str = System.console().readLine();
+			if (PokerHelper.isValidRank(str)) break;
+		}
+	}
+	
+	//encode value for rank
+	if (str.equals("J")) {
+		cardNo = 11;
+	} else if (str.equals("Q")) {
+		cardNo = 12;	
+	} else if (str.equals("K")){
+		cardNo = 13;
+	} else {
+		cardNo = Integer.parseInt(str);
+	}
+	
+	// get suit value
+	println("Enter the suit: ");
+	str = System.console().readLine();
+	
+	//validate input
+	if (!PokerHelper.isValidSuit(str)) {
+		while (true){
+			println("Enter the suit (spades, hearts, diamonds, or clubs): ");
+			str = System.console().readLine();
+			if (PokerHelper.isValidSuit(str)) break;
+		}
+	}
+	
+	//encode suit
+	if (str.equals("spades")) {
+		cardNo += 100;
+	} else if (str.equals("hearts")){
+		cardNo += 200;
+	} else if (str.equals("diamonds")){
+		cardNo += 300;
+	} else if (str.equals("clubs")){
+		cardNo += 400;
+	}
+	
+	//store current card value in array
+	cards[i] = cardNo;
+}
+
+println("The hand is: ");
+for (int i = 0; i < PokerHelper.CARDS_PER_HAND; i++){
+	println(String.valueOf(cards[i]));
+}
+println("Results: ");
+print("Your best hand is: ");
+boolean hasAnything = false;
+
+if (PokerHelper.hasStraightFlush(cards)) {
+	println("Straight Flush.");
+} else if (PokerHelper.hasFourOfAKind(cards)) {
+	println("Four of a Kind.");
+} else if (PokerHelper.hasFullHouse(cards)) {
+	println("Full House.");
+} else if (PokerHelper.hasFlush(cards)) {
+	println("Flush.");
+} else if (PokerHelper.hasStraight(cards)) {
+	println("Straight.");
+} else if (PokerHelper.hasThreeOfAKind(cards)) {
+	println("Three of a Kind.");
+} else if (PokerHelper.hasTwoPairs(cards)) {
+	println("Two Pairs.");
+} else if (PokerHelper.hasPair(cards)) {
+	println("A pair.");
+} else {
+	println("Nothing.");
+}
+	
+
+// Helper class for validating cards and assessing available hands.
+class PokerHelper{
+	
+	public static final int CARDS_PER_HAND = 5;
+
+	public static boolean isValidRank(String rank){
+		switch (rank){
+			case "1":
+			case "2":
+			case "3":
+			case "4":
+			case "5":
+			case "6":
+			case "7":
+			case "8":
+			case "9":
+			case "10":
+			case "J":
+			case "Q":
+			case "K":
+				return true;
+			default: 
+				return false;	
+		}
+	}
+
+	public static boolean isValidSuit(String suit){
+		switch (suit){
+			case "spades":
+			case "hearts":
+			case "clubs":
+			case "diamonds":
+				return true;
+			default:
+				return false;
+		}
+	}
+	
+	public static boolean hasStraightFlush(int[] cards){
+		return (PokerHelper.hasStraight(cards) && PokerHelper.hasFlush(cards)) ? true : false;
+	}
+	
+	public static boolean hasFourOfAKind(int[] cards){
+			int maxCount = PokerHelper.getMostCommonCardCount(cards);			
+			return (maxCount >= 4) ? true : false;
+	}
+	
+	public static boolean hasFullHouse(int[] cards){
+		return (PokerHelper.hasTwoPairs(cards) && PokerHelper.hasThreeOfAKind(cards)) ? true : false;
+	}
+	
+	public static boolean hasFlush(int[] cards){
+		int cardsCopy[] = new int[cards.length]; //make safe copy to alter values
+		for (int i = 0; i < cards.length; i++){
+			cardsCopy[i] = cards[i];
+		}
+	
+		//reassign values to reflect only the suit (i.e. 100, 200, etc.)
+		for (int i = 0; i < PokerHelper.CARDS_PER_HAND; i++){
+			cardsCopy[i] = cardsCopy[i] - (cardsCopy[i] % 100);
+		}
+		
+		boolean allHaveSameSuit = true;
+		for (int i = 0; i < PokerHelper.CARDS_PER_HAND; i++){
+			int nextCard = i + 1;
+			if (nextCard >= PokerHelper.CARDS_PER_HAND) nextCard = 0; //Ensure last element of array checks first element
+			if (cardsCopy[i] != cardsCopy[nextCard]) allHaveSameSuit = false; //if any cards do not match the next one, set flag to false
+		}
+		
+		return allHaveSameSuit;		
+	}
+	
+	public static boolean hasStraight(int[] cards){
+		int cardsCopy[] = new int[cards.length]; //make safe copy to alter values
+		for (int i = 0; i < cards.length; i++){
+			cardsCopy[i] = cards[i];
+		}
+	
+		//exactly one card should NOT have a card directly above and as well as one without a card directly below, 
+		// without any duplicate cards
+		
+		if (PokerHelper.hasPair(cardsCopy)) return false;
+		
+		int numWithoutCardAbove = 0;
+		int numWithoutCardBelow = 0;
+		for (int i = 0; i < PokerHelper.CARDS_PER_HAND; i++){
+			boolean hasCardAbove = false;
+			boolean hasCardBelow = false;
+			for (int j = 0; j < PokerHelper.CARDS_PER_HAND; j++){
+				//treat ace as 14 when comparing against king, treat as 1 when comparing against 2
+				if (cardsCopy[i] % 100 == 13 && cardsCopy[j] % 100 ==1) {
+					cardsCopy[j] = 14;
+				} else if (cardsCopy[i] % 100 == 2 && cardsCopy[j] % 100 == 14){
+					cardsCopy[j] = 1;
+				}
+				// same as above, just reversed in case int i is the ace instead of int j
+				if (cardsCopy[j] % 100 == 13 && cardsCopy[i] % 100 ==1) {
+					cardsCopy[i] = 14;
+				} else if (cardsCopy[j] % 100 == 2 && cardsCopy[i] % 100 == 14){
+					cardsCopy[i] = 1;
+				}
+				
+				if (cardsCopy[i] % 100 == (cardsCopy[j] % 100) + 1) hasCardAbove = true;
+				if (cardsCopy[i] % 100 == (cardsCopy[j] % 100) - 1) hasCardBelow = true;				
+			}
+			if (!hasCardAbove) numWithoutCardAbove++;
+			if (!hasCardBelow) numWithoutCardBelow++;
+		}
+
+		return (numWithoutCardAbove == 1 && numWithoutCardBelow ==1) ? true : false;
+	}
+	
+	public static boolean hasThreeOfAKind(int[] cards){
+		int maxCount = PokerHelper.getMostCommonCardCount(cards);			
+		return (maxCount >= 3) ? true : false;
+	}
+	
+	public static boolean hasTwoPairs(int[] cards){
+		int pairCount = 0;
+		
+		// for every card in the hand, count how many cards in the hand have this value	
+		for (int i = 0; i < PokerHelper.CARDS_PER_HAND; i++){
+			int count = 0;
+			for (int j=0; j < PokerHelper.CARDS_PER_HAND; j++){
+				if (cards[i] % 100 == cards[j] % 100) 
+					count++;
+			}
+			if (count >= 2) // if more than 2, record a pair has been found
+				pairCount++;			
+		}							
+		return (pairCount / 2 >= 2) ? true : false; //each pair is counted twice (three times for triples), so divide by 2
+	}
+	
+	public static boolean hasPair(int[] cards){
+		int maxCount = PokerHelper.getMostCommonCardCount(cards);			
+		return (maxCount >= 2) ? true : false;
+	}
+	
+	//use same function to determine pair, three of a kind, four of a kind
+	private static int getMostCommonCardCount(int [] cards){
+		int maxCount = 0;
+		// for every card in the hand, count how many cards in the hand have this value
+		for (int i = 0; i < PokerHelper.CARDS_PER_HAND; i++){
+			int count = 0;
+			for (int j=0; j < PokerHelper.CARDS_PER_HAND; j++){
+				if (cards[i] % 100 == cards[j] % 100)
+						count++;					
+			}
+			if (count > maxCount)
+				maxCount = count;		
+		}		
+		return maxCount;			
+	}	
+}

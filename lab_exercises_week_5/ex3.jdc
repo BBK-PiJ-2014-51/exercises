@@ -1,0 +1,79 @@
+// A Din-A0 sheet of paper is 841mm × 1189mm (its surface is one square meter). Successive measurements of paper
+// are defined recursively as “half” or “double” the preceding size. Therefore, a Din-A1 sheet of paper is half of
+// Din-A0, or 594mm × 841mm; while a Din-A00 is double of Din-A0, or 1189mm× 1682mm.
+// Create a method that takes a String parameter representing a size (e.g. ”A4”, “A00000”) and prints on screen
+// the size of the corresponding sheet of paper. For simplicity, you can ignore rounding errors when calculating smaller
+// sizes.
+// Hint: note that two consecutive sizes always share one side and only the other one is multiplied or divided by
+// two, e.g. the short side of Din-A2 is as long as the long side of Din-A3, while the long side of Din-A2 is twice as
+// long as the short side of Din-A3.
+
+
+RectangularAreaFinder af = new RectangularAreaFinder();
+af.printPaperSize("A0");
+af.printPaperSize("A00");
+af.printPaperSize("A0000");
+af.printPaperSize("A1");
+af.printPaperSize("A4");
+
+
+
+class RectangularAreaFinder{
+	double sideA = 0.0;
+	double sideB = 0.0;
+	
+	public void setToA0(){
+		this.sideA = 841.0;
+		this.sideB = 1189.0;
+	}
+	
+	public void printPaperSize(String size){
+			this.setToA0();
+			if (!this.isValid(size)){
+				println("Invalid input please enter in the form of AX where X is a series of 0's or numeric character 1-9");
+			}else if (size.charAt(1) == '0'){
+				this.adjustSizeLargerThanA0(size);
+			} else {
+				this.adjustSizeSmallerThanA0(size);
+			}			
+			println("The dimensions of a " + size + " piece of paper are :" + String.valueOf(sideA) + "mm x " + String.valueOf(sideB) +"mm");			
+			println("Total area: " + String.valueOf(sideA / 1000 * sideB/ 1000) + " square m");
+	}
+
+	private void adjustSizeLargerThanA0(String size){
+		if (size.equals("A0")) return;		
+		if (this.sideA > this.sideB){
+			this.sideB *= 2;
+		} else {
+			this.sideA *= 2;
+		}
+		
+		this.adjustSizeLargerThanA0(size.substring(0, size.length() - 1));		
+	}
+	
+	private void adjustSizeSmallerThanA0(String size){
+		if (size.equals("A0")) return;		
+		if (this.sideA > this.sideB){
+			this.sideA /= 2;
+		} else {
+			this.sideB /= 2;
+		}		
+		int newSize = Integer.parseInt(size.substring(1,2)) - 1;		
+		
+		this.adjustSizeSmallerThanA0("A" + String.valueOf(newSize));		
+	}
+	
+	private boolean isValid(String input){
+		if (input.length() < 2) return false; //must be atleast 2 characters long
+		if (input.charAt(0) != 'A') return false; //must start with an 'A'		
+		if (input.charAt(1) == '0') {
+				for (int i = 1; i < input.length(); i++){ //prefix A0 must contain only 0 thereafter
+					if (input.charAt(i) != '0') return false;
+				}			
+		} else {
+			 if (!Character.isDigit(input.charAt(1)) || input.length() > 2) return false; //if not A0 prefix, second char must be number and last char.
+		}		
+		return true;
+	}
+	
+}
